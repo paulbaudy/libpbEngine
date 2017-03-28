@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Object.h"
 #include "TransformComponent.h"
+#include "CameraComponent.h"
 
 
 int main(void) {
@@ -18,6 +19,7 @@ int main(void) {
 	Object *myObject = new Object(myScene);
 	myObject->addComponent<TransformComponent>();
 	myObject->addComponent<MeshComponent>();
+	myObject->addComponent<CameraComponent>();
 
 
 	myScene->addObject(myObject);

@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <map>
 
-
+#include "glm.hpp"
 #include "Component.h"
 
 class Scene;
@@ -14,11 +15,17 @@ private :
 	bool bRender;
 	bool bChild;
 
-
-
+	/* Object components */
 	std::vector<Component*> vComponents;
+	/* Components by component ID */
+	std::map<int, Component*> mComponents;
+	/* Object childs */
 	std::vector<Object> vChilds;
+
+	/* Parent object if current object is a child */
 	Object* oParent;
+
+	/* Current rendered scene */
 	Scene* sCurrentScene;
 
 	
@@ -35,10 +42,14 @@ public:
 
 	bool isChild();
 
+	/* Components functions */
+	Component* getComponent(int componentID);
+
 	template <class T> void addComponent() {
 		if (std::is_base_of<Component, T>()) {
 			/* Initialize new component */
 			T* cNewComponent = new T();
+			cNewComponent->setOwner(this);
 			cNewComponent->create();
 
 			/* Add component to object array */
@@ -51,7 +62,17 @@ public:
 					sCurrentScene->addMeshComponent(mNewMesh);
 				}
 			}
+			else if (std::is_same<T, CameraComponent>()) {
+				CameraComponent *mNewCamera = dynamic_cast<CameraComponent *>(cNewComponent);
+				if (NULL != mNewCamera)
+				{
+					Scene::cCurrentCamera = mNewCamera;
+				}
+				
+			}
+
+			mComponents.insert(std::pair<int, Component*>(cNewComponent->getComponentID(), cNewComponent));
+
 		}
 	}
-	template <class T> void addChild();
 };

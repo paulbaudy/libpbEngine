@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-
+CameraComponent* Scene::cCurrentCamera = nullptr;
 
 Scene::Scene()
 {

@@ -1,5 +1,8 @@
 #include "MeshComponent.h"
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tiny_obj_loader.h"
+
 #include <iostream>
 
 GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path) {
@@ -106,11 +109,44 @@ MeshComponent::MeshComponent() : Component()
 	vGeometryVertex.push_back(glm::vec3(1.f, -1.f, 0.f));
 	vGeometryVertex.push_back(glm::vec3(0.f, 1.f, 0.f));
 
+	tinyobj::attrib_t attrib;
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string err;
+	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, "objects/model.obj");
+
+	if (!err.empty()) {
+		printf("err: %s\n", err.c_str());
+	}
+	
+	for (size_t s = 0; s < shapes.size(); s++) {
+		for (size_t f = 0; f < shapes[s].mesh.indices.size() / 3; f++) {
+			tinyobj::index_t idx0 = shapes[s].mesh.indices[3 * f + 0];
+			tinyobj::index_t idx1 = shapes[s].mesh.indices[3 * f + 1];
+			tinyobj::index_t idx2 = shapes[s].mesh.indices[3 * f + 2];
+
+			for (int k = 0; k < 3; k++) {
+				int f0 = idx0.vertex_index;
+				int f1 = idx1.vertex_index;
+				int f2 = idx2.vertex_index;
+
+				vGeometryVertex.push_back(glm::vec3(attrib.vertices[3 * f0 + k], attrib.vertices[3 * f1 + k], attrib.vertices[3 * f2 + k]));
+			}
+		}
+
+		
+	}
+
+	
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, vGeometryVertex.size() * sizeof(glm::vec3), &vGeometryVertex[0], GL_STATIC_DRAW);
 
 	glProgram = LoadShaders("shaders/vertex.vertexshader", "shaders/fragment.fragmentshader");
+
+	MatrixID = glGetUniformLocation(glProgram, "MVP");
+
+	iComponentID = 1;
 }
 
 
@@ -132,6 +168,9 @@ void MeshComponent::display()
 {
 	
 	glUseProgram(glProgram);
+
+	glm::mat4 currentMVP = Scene::cCurrentCamera->getProjection();
+	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &currentMVP[0][0]);
 
 	glEnableVertexAttribArray(0);
 	

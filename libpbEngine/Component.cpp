@@ -7,6 +7,7 @@ Component::Component()
 	bEnabled = true;
 	bCanTick = true;
 	bCanDisplay = false;
+	iComponentID = -1;
 }
 
 
@@ -34,6 +35,11 @@ void Component::display()
 
 }
 
+void Component::setOwner(Object* owner)
+{
+	oOwner = owner;
+}
+
 bool Component::getCanTick()
 {
 	return bCanTick;
@@ -42,4 +48,9 @@ bool Component::getCanTick()
 bool Component::getCanDisplay()
 {
 	return bCanDisplay;
+}
+
+int Component::getComponentID()
+{
+	return iComponentID;
 }

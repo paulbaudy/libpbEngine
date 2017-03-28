@@ -1,10 +1,15 @@
 #pragma once
-#include "glm.hpp"
 
-class CameraComponent
+#include "Component.h"
+#include "TransformComponent.h"
+#include "Object.h"
+#include "glm.hpp"
+#include "gtc/matrix_transform.hpp"
+
+
+class CameraComponent : public Component
 {
-private:
-	glm::vec4 getProjection();
+	
 
 public:
 	CameraComponent();
@@ -14,6 +19,6 @@ public:
 	void start();
 	void update();
 
-	
+	glm::mat4 getProjection();
 };
 

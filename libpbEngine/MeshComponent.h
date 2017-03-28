@@ -9,12 +9,15 @@
 #include <algorithm>
 #include <string>
 
+#include "Component.h"
+#include "Scene.h"
 #include <vector>
 #include <glew.h>
 #include <glfw3.h>
 #include <glm.hpp>
 
 GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_path);
+
 
 class MeshComponent : public Component
 {
@@ -23,9 +26,13 @@ private:
 
 	GLuint glProgram;
 
+	GLuint MatrixID;
+
+
 	std::vector<glm::vec3> vGeometryVertex;
 public:
 	MeshComponent();
+	MeshComponent(std::string path);
 	~MeshComponent();
 
 	virtual void create();

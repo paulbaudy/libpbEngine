@@ -51,6 +51,11 @@ bool Object::isChild()
 	return bChild;
 }
 
+Component* Object::getComponent(int componentID)
+{
+	return mComponents[componentID];
+}
+
 void Object::setIsChild(bool child)
 {
 	bChild = child;
