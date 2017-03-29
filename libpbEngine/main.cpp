@@ -4,7 +4,7 @@
 #include "Object.h"
 #include "TransformComponent.h"
 #include "CameraComponent.h"
-
+#include "Rabbit.h"
 
 int main(void) {
 
@@ -16,13 +16,13 @@ int main(void) {
 	}
 
 	Scene* myScene = new Scene();
-	Object *myObject = new Object(myScene);
+	/* Object *myObject = new Object(myScene);
 	myObject->addComponent<TransformComponent>();
 	myObject->addComponent<MeshComponent>();
-	myObject->addComponent<CameraComponent>();
+	myObject->addComponent<CameraComponent>();*/
 
-
-	myScene->addObject(myObject);
+	Rabbit* myRabbit = new Rabbit(myScene);
+	myScene->addObject(myRabbit);
 	
 	gHelloWorld.changeScene(myScene);
 	gHelloWorld.start();

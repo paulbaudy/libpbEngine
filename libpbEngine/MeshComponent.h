@@ -22,6 +22,9 @@ GLuint LoadShaders(const char * vertex_file_path, const char * fragment_file_pat
 class MeshComponent : public Component
 {
 private:
+	/* Mesh is available to display */
+	bool bCorrectMesh;
+
 	GLuint vertexbuffer;
 
 	GLuint glProgram;
@@ -34,6 +37,8 @@ public:
 	MeshComponent();
 	MeshComponent(std::string path);
 	~MeshComponent();
+
+	bool setMesh(std::string path);
 
 	virtual void create();
 	virtual void start();

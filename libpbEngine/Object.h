@@ -45,7 +45,7 @@ public:
 	/* Components functions */
 	Component* getComponent(int componentID);
 
-	template <class T> void addComponent() {
+	template <class T> Component* addComponent() {
 		if (std::is_base_of<Component, T>()) {
 			/* Initialize new component */
 			T* cNewComponent = new T();
@@ -72,7 +72,8 @@ public:
 			}
 
 			mComponents.insert(std::pair<int, Component*>(cNewComponent->getComponentID(), cNewComponent));
-
+			return cNewComponent;
 		}
+		return nullptr;
 	}
 };

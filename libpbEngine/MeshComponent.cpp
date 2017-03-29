@@ -104,40 +104,62 @@ MeshComponent::MeshComponent() : Component()
 {
 	bCanTick = false;
 	bCanDisplay = true;
+	bCorrectMesh = false;
+	iComponentID = 1;
+}
 
-	vGeometryVertex.push_back(glm::vec3(-1.f, -1.f, 0.f));
-	vGeometryVertex.push_back(glm::vec3(1.f, -1.f, 0.f));
-	vGeometryVertex.push_back(glm::vec3(0.f, 1.f, 0.f));
 
+MeshComponent::~MeshComponent()
+{
+}
+
+bool MeshComponent::setMesh(std::string path)
+{
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
+
 	std::string err;
-	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, "objects/model.obj");
+	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str());
 
 	if (!err.empty()) {
-		printf("err: %s\n", err.c_str());
+		std::cerr << err << std::endl;
 	}
-	
+
+	if (!ret) {
+		exit(1);
+	}
+
+	// Loop over shapes
 	for (size_t s = 0; s < shapes.size(); s++) {
-		for (size_t f = 0; f < shapes[s].mesh.indices.size() / 3; f++) {
-			tinyobj::index_t idx0 = shapes[s].mesh.indices[3 * f + 0];
-			tinyobj::index_t idx1 = shapes[s].mesh.indices[3 * f + 1];
-			tinyobj::index_t idx2 = shapes[s].mesh.indices[3 * f + 2];
+		// Loop over faces(polygon)
+		size_t index_offset = 0;
+		for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) {
+			int fv = shapes[s].mesh.num_face_vertices[f];
 
-			for (int k = 0; k < 3; k++) {
-				int f0 = idx0.vertex_index;
-				int f1 = idx1.vertex_index;
-				int f2 = idx2.vertex_index;
+			// Loop over vertices in the face.
+			for (size_t v = 0; v < fv; v++) {
+				// access to vertex
+				tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+				float vx = attrib.vertices[3 * idx.vertex_index + 0];
+				float vy = attrib.vertices[3 * idx.vertex_index + 1];
+				float vz = attrib.vertices[3 * idx.vertex_index + 2];
+				float nx = attrib.normals[3 * idx.normal_index + 0];
+				float ny = attrib.normals[3 * idx.normal_index + 1];
+				float nz = attrib.normals[3 * idx.normal_index + 2];
+				float tx = attrib.texcoords[2 * idx.texcoord_index + 0];
+				float ty = attrib.texcoords[2 * idx.texcoord_index + 1];
 
-				vGeometryVertex.push_back(glm::vec3(attrib.vertices[3 * f0 + k], attrib.vertices[3 * f1 + k], attrib.vertices[3 * f2 + k]));
+				vGeometryVertex.push_back(glm::vec3(vx, vy, vz));
 			}
-		}
+			index_offset += fv;
 
-		
+			// per-face material
+			shapes[s].mesh.material_ids[f];
+		}
 	}
 
-	
+
 	glGenBuffers(1, &vertexbuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
 	glBufferData(GL_ARRAY_BUFFER, vGeometryVertex.size() * sizeof(glm::vec3), &vGeometryVertex[0], GL_STATIC_DRAW);
@@ -145,13 +167,8 @@ MeshComponent::MeshComponent() : Component()
 	glProgram = LoadShaders("shaders/vertex.vertexshader", "shaders/fragment.fragmentshader");
 
 	MatrixID = glGetUniformLocation(glProgram, "MVP");
-
-	iComponentID = 1;
-}
-
-
-MeshComponent::~MeshComponent()
-{
+	bCorrectMesh = true;
+	return true;
 }
 
 void MeshComponent::create()
@@ -166,6 +183,7 @@ void MeshComponent::start()
 
 void MeshComponent::display()
 {
+	if (!bCorrectMesh) return;
 	
 	glUseProgram(glProgram);
 
@@ -186,6 +204,4 @@ void MeshComponent::display()
 	
 	glDrawArrays(GL_TRIANGLES, 0, (GLsizei)vGeometryVertex.size());
 	glDisableVertexAttribArray(0);
-
-	
 }
