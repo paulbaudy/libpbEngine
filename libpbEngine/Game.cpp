@@ -1,8 +1,13 @@
 #include "Game.h"
 
+void Game::handleInput(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	Input::aPressedKeys[key] = action;
+}
+
 void Game::updateInput()
 {
-
+	glfwPollEvents();
 }
 
 bool Game::initOpenGl()
@@ -40,6 +45,8 @@ bool Game::initOpenGl()
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
+
+	glfwSetKeyCallback(window, Game::handleInput);
 
 	return true;
 }
@@ -96,7 +103,6 @@ void Game::update()
 	sCurrentScene->update( ((float) (newClock - oldClock)) / CLOCKS_PER_SEC);
 
 	glfwSwapBuffers(window);
-	glfwPollEvents();
 }
 
 void Game::changeScene(Scene *newScene)

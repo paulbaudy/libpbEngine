@@ -17,6 +17,7 @@
 #include "glm.hpp"
 
 #include "Scene.h"
+#include "Input.h"
 
 class Game
 {
@@ -35,7 +36,7 @@ private:
 	clock_t newClock;
 
 
-
+	static void handleInput(GLFWwindow* window, int key, int scancode, int action, int mods);
 	void updateInput();
 
 	/* Initialize Render API */

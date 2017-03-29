@@ -27,5 +27,9 @@ void Rabbit::start()
 
 void Rabbit::update(float DeltaTime)
 {
-	tTransform->vPosition.x += 0.1f*DeltaTime;
+	if(Input::isPressing(GLFW_KEY_UP))
+		tTransform->vPosition.x -= 1.f*DeltaTime;
+
+	if (Input::isPressing(GLFW_KEY_DOWN))
+		tTransform->vPosition.x += 1.f*DeltaTime;
 }
