@@ -2,6 +2,7 @@
 
 #include "Component.h"
 #include "glm.hpp"
+#include "gtx/transform.hpp"
 
 class TransformComponent : public Component
 {
@@ -13,5 +14,6 @@ public:
 	TransformComponent();
 	~TransformComponent();
 
+	glm::mat4 getModelMatrix();
 };
 

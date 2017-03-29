@@ -187,7 +187,9 @@ void MeshComponent::display()
 	
 	glUseProgram(glProgram);
 
-	glm::mat4 currentMVP = Scene::cCurrentCamera->getProjection();
+	TransformComponent* myTransform = (TransformComponent*)oOwner->getComponent(0);
+	glm::mat4 currentMVP = Scene::cCurrentCamera->getProjection()*myTransform->getModelMatrix();
+
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &currentMVP[0][0]);
 
 	glEnableVertexAttribArray(0);
