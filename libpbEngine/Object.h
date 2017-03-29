@@ -38,7 +38,7 @@ public:
 	~Object();
 
 	virtual void start();
-	virtual void update();
+	virtual void update(float DeltaTime);
 
 	bool isChild();
 

@@ -34,14 +34,14 @@ void Object::start()
 	}
 }
 
-void Object::update()
+void Object::update(float DeltaTime)
 {
 	for (Component* currentComponent : vComponents) {
 		if(currentComponent->getCanTick())
 			currentComponent->update();
 	}
 	for (Object currentChild : vChilds) {
-		currentChild.update();
+		currentChild.update(DeltaTime);
 	}
 }
 

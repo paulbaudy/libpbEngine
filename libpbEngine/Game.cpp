@@ -76,6 +76,8 @@ void Game::start()
 	}
 	
 	bPlaying = true;
+	oldClock = clock();
+	newClock = clock();
 }
 
 bool Game::isPlaying() const
@@ -85,10 +87,13 @@ bool Game::isPlaying() const
 
 void Game::update()
 {
+	oldClock = newClock;
+	newClock = clock();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	updateInput();
-	sCurrentScene->update();
+	sCurrentScene->update( ((float) (newClock - oldClock)) / CLOCKS_PER_SEC);
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();

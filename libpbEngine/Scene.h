@@ -17,7 +17,7 @@ private:
 	std::vector<Object*> vObjects;
 	std::vector<MeshComponent*> vMeshComponents;
 
-	void updateLogic();
+	void updateLogic(float DeltaTime);
 	void updateOutput();
 
 public:
@@ -26,7 +26,7 @@ public:
 
 	static CameraComponent* cCurrentCamera;
 
-	void update();
+	void update(float deltaTime);
 	void clean();
 
 	void addObject(Object *newObject);

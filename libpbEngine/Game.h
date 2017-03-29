@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <time.h>
 
 //Include OpenGl libraries 
 #include "glew.h"
@@ -29,6 +30,10 @@ private:
 	Scene *sCurrentScene;
 
 	GLFWwindow* window;
+
+	clock_t oldClock;
+	clock_t newClock;
+
 
 
 	void updateInput();

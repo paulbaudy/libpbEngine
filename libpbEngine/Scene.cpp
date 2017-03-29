@@ -11,9 +11,9 @@ Scene::~Scene()
 {
 }
 
-void Scene::update()
+void Scene::update(float deltaTime)
 {
-	updateLogic();
+	updateLogic(deltaTime);
 	updateOutput();
 }
 
@@ -22,10 +22,10 @@ void Scene::clean()
 
 }
 
-void Scene::updateLogic()
+void Scene::updateLogic(float DeltaTime)
 {
 	for (Object *currentObject : vObjects) {
-		currentObject->update();
+		currentObject->update(DeltaTime);
 	}
 }
 

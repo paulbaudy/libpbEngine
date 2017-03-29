@@ -25,7 +25,7 @@ void Rabbit::start()
 
 }
 
-void Rabbit::update()
+void Rabbit::update(float DeltaTime)
 {
-
+	tTransform->vPosition.x += 0.1f*DeltaTime;
 }
