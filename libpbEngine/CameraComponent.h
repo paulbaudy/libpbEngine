@@ -17,7 +17,7 @@ public:
 
 	void create();
 	void start();
-	void update();
+	void update(float deltaTime);
 
 	glm::mat4 getProjection();
 };

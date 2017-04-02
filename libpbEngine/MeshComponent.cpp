@@ -195,6 +195,7 @@ void MeshComponent::display()
 	glEnableVertexAttribArray(0);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+
 	glVertexAttribPointer(
 		0,                  
 		3,                  

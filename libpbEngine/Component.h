@@ -22,7 +22,7 @@ public:
 
 	virtual void create();
 	virtual void start();
-	virtual void update();
+	virtual void update(float deltaTime);
 	virtual void display();
 
 	void setOwner(Object* owner);

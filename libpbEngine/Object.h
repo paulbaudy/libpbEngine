@@ -55,11 +55,21 @@ public:
 			/* Add component to object array */
 			vComponents.push_back(cNewComponent);
 
+			
+
 			if (std::is_same<T, MeshComponent>()) {
 				MeshComponent *mNewMesh = dynamic_cast<MeshComponent *>(cNewComponent);
 				if (NULL != mNewMesh)
 				{
 					sCurrentScene->addMeshComponent(mNewMesh);
+					sCurrentScene->addDisplayComponent(mNewMesh);
+				}
+			}
+			else if (std::is_same<T, BoxCollider>()) {
+				BoxCollider *bNewBox = dynamic_cast<BoxCollider *>(cNewComponent);
+				if (NULL != bNewBox)
+				{
+					sCurrentScene->addDisplayComponent(bNewBox);
 				}
 			}
 			else if (std::is_same<T, CameraComponent>()) {
@@ -70,7 +80,7 @@ public:
 				}
 				
 			}
-
+			sCurrentScene->addComponent(cNewComponent);
 			mComponents.insert(std::pair<int, Component*>(cNewComponent->getComponentID(), cNewComponent));
 			return cNewComponent;
 		}

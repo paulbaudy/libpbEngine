@@ -16,6 +16,8 @@ private:
 
 	std::vector<Object*> vObjects;
 	std::vector<MeshComponent*> vMeshComponents;
+	std::vector<Component*> vDisplayComponents;
+	std::vector<Component*> vComponents;
 
 	void updateLogic(float DeltaTime);
 	void updateOutput();
@@ -31,4 +33,6 @@ public:
 
 	void addObject(Object *newObject);
 	void addMeshComponent(MeshComponent* newMesh);
+	void addDisplayComponent(Component* newComponent);
+	void addComponent(Component* newComponent);
 };

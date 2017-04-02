@@ -38,7 +38,7 @@ void Object::update(float DeltaTime)
 {
 	for (Component* currentComponent : vComponents) {
 		if(currentComponent->getCanTick())
-			currentComponent->update();
+			currentComponent->update(DeltaTime);
 	}
 	for (Object currentChild : vChilds) {
 		currentChild.update(DeltaTime);

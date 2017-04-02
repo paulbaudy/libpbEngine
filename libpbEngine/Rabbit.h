@@ -7,6 +7,8 @@
 #include "MeshComponent.h"
 #include "CameraComponent.h"
 #include "Input.h"
+#include "BoxCollider.h"
+#include "RigidBody.h"
 
 class Rabbit : public Object
 {
@@ -14,6 +16,8 @@ private:
 	TransformComponent* tTransform;
 	MeshComponent* mMesh;
 	CameraComponent* cCamera;
+	BoxCollider* bCollider;
+	RigidBody* rRigidBody;
 
 public:
 	Rabbit();

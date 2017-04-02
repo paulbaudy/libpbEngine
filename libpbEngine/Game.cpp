@@ -47,6 +47,10 @@ bool Game::initOpenGl()
 	glBindVertexArray(VertexArrayID);
 
 	glfwSetKeyCallback(window, Game::handleInput);
+	glLineWidth(5.0f);
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+
 
 	return true;
 }

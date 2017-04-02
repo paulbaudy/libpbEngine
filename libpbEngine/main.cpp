@@ -23,10 +23,10 @@ int main(void) {
 
 	Rabbit* myRabbit = new Rabbit(myScene);
 	myScene->addObject(myRabbit);
-	
+
 	gHelloWorld.changeScene(myScene);
 	gHelloWorld.start();
-	
+
 
 	while (gHelloWorld.isPlaying()) {
 		gHelloWorld.update();
